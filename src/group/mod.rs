@@ -15,6 +15,7 @@ use {
             FixedBaseSelector,
         },
         builder::DefaultStrategy,
+        Stabchain,
     },
     crate::{
         group::{
@@ -221,8 +222,8 @@ where
 
     /// Computes a stabilizer chain for this group
     #[tracing::instrument]
-    pub fn stabchain(&self) -> stabchain::Stabchain<P, impl TransversalResolver<P>> {
-        stabchain::Stabchain::new_with_strategy(
+    pub fn stabchain(&self) -> Stabchain<P, impl TransversalResolver<P>> {
+        Stabchain::new_with_strategy(
             self,
             DefaultStrategy::new(SimpleApplication::default(), DefaultSelector::default()),
         )
@@ -230,18 +231,15 @@ where
 
     /// Computes a stabilizer chain for this group with a base
     #[tracing::instrument]
-    pub fn stabchain_base(&self, base: &[usize]) -> stabchain::Stabchain<P, impl TransversalResolver<P>> {
-        stabchain::Stabchain::new_with_strategy(
+    pub fn stabchain_base(&self, base: &[usize]) -> Stabchain<P, impl TransversalResolver<P>> {
+        Stabchain::new_with_strategy(
             self,
             DefaultStrategy::new(SimpleApplication::default(), FixedBaseSelector::new(base)),
         )
     }
     /// Computes a stabilizer chain for this group with a partial base, using the default strategy for further points.
-    pub fn stabchain_partial_base(
-        &self,
-        partial_base: &[usize],
-    ) -> stabchain::Stabchain<P, impl TransversalResolver<P>> {
-        stabchain::Stabchain::new_with_strategy(
+    pub fn stabchain_partial_base(&self, partial_base: &[usize]) -> Stabchain<P, impl TransversalResolver<P>> {
+        Stabchain::new_with_strategy(
             self,
             DefaultStrategy::new(
                 SimpleApplication::default(),
@@ -251,19 +249,13 @@ where
     }
 
     /// Computes a stabilizer chain for this group with a strategy
-    pub fn stabchain_with_strategy<S: BuilderStrategy<P>>(
-        &self,
-        strat: S,
-    ) -> stabchain::Stabchain<P, S::Transversal, S::Action> {
-        stabchain::Stabchain::new_with_strategy(self, strat)
+    pub fn stabchain_with_strategy<S: BuilderStrategy<P>>(&self, strat: S) -> Stabchain<P, S::Transversal, S::Action> {
+        Stabchain::new_with_strategy(self, strat)
     }
 
     /// Computes a stabilizer chain for this group with a chosen selector
-    pub fn stabchain_with_selector(
-        &self,
-        selector: impl BaseSelector<P>,
-    ) -> stabchain::Stabchain<P, impl TransversalResolver<P>> {
-        stabchain::Stabchain::new_with_strategy(self, DefaultStrategy::new(SimpleApplication::default(), selector))
+    pub fn stabchain_with_selector(&self, selector: impl BaseSelector<P>) -> Stabchain<P, impl TransversalResolver<P>> {
+        Stabchain::new_with_strategy(self, DefaultStrategy::new(SimpleApplication::default(), selector))
     }
 
     /// Check G.subgroup_of(H) <=> G <= H
