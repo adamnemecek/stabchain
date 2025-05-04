@@ -105,8 +105,7 @@ mod tests {
 
         let base = [0, 1, 2, 3, 4, 5];
 
-        let mut selector =
-            PartialSelector::new(FixedBaseSelector::new(&base), 6, LmpSelector);
+        let mut selector = PartialSelector::new(FixedBaseSelector::new(&base), 6, LmpSelector);
 
         let g = Group::symmetric(10);
         let mut rand = g.rng();

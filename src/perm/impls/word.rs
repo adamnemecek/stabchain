@@ -226,9 +226,11 @@ mod tests {
 
     #[test]
     fn inv_lazy() {
-        let images = [vec![0, 2, 1],
+        let images = [
+            vec![0, 2, 1],
             vec![0, 1, 2, 4, 3],
-            vec![0, 1, 2, 3, 4, 5, 7, 6]];
+            vec![0, 1, 2, 3, 4, 5, 7, 6],
+        ];
         let perms = images
             .iter()
             .map(|arr| DefaultPermutation::from_images(arr));
@@ -247,9 +249,11 @@ mod tests {
 
     #[test]
     fn lmp_upper_bound() {
-        let images = [vec![0, 2, 1],
+        let images = [
+            vec![0, 2, 1],
             vec![0, 1, 2, 4, 3],
-            vec![0, 1, 2, 3, 4, 5, 7, 6]];
+            vec![0, 1, 2, 3, 4, 5, 7, 6],
+        ];
         let perms = images
             .iter()
             .map(|arr| DefaultPermutation::from_images(arr));

@@ -71,10 +71,7 @@ impl Permutation for StandardPermutation {
 
     fn inv(&self) -> Self {
         if self.invvals.borrow().is_some() {
-            return Self::make_inverse(
-                self.vals.clone(),
-                self.invvals.borrow().clone().unwrap(),
-            );
+            return Self::make_inverse(self.vals.clone(), self.invvals.borrow().clone().unwrap());
         }
 
         let v = crate::perm::algos::inv_unchecked(&self.vals[..]);

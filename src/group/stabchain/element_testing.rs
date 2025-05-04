@@ -318,7 +318,6 @@ mod tests {
         assert_eq!(repr.len(), stab.len());
         let mut acc = DefaultPermutation::id();
         while let Some(elem) = repr.pop() {
-            
             acc = acc.multiply(&elem);
         }
         assert_eq!(acc, perm);
