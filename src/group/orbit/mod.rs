@@ -53,7 +53,7 @@ where
     OrbitT: std::hash::Hash + Eq,
 {
     pub(crate) fn from_raw(base: OrbitT, orbit: DetHashSet<OrbitT>) -> Self {
-        Orbit { base, orbit }
+        Self { base, orbit }
     }
 
     /// Is this a complete orbit?

@@ -27,7 +27,7 @@ impl MapPermutation {
 
 impl Permutation for MapPermutation {
     fn id() -> Self {
-        MapPermutation {
+        Self {
             images: Rc::new(BTreeMap::new()),
         }
     }
@@ -84,7 +84,7 @@ impl Permutation for MapPermutation {
 
 impl FromIterator<(usize, usize)> for MapPermutation {
     fn from_iter<T: IntoIterator<Item = (usize, usize)>>(iter: T) -> Self {
-        MapPermutation {
+        Self {
             images: Rc::new(iter.into_iter().collect()),
         }
     }

@@ -56,7 +56,7 @@ where
     pub fn new(selector: S, action: A, params: RandomAlgoParameters<R>) -> Self {
         let (constants, random) = params.consts();
 
-        StabchainBuilderRandom {
+        Self {
             current_pos: 0,
             chain: Vec::new(),
             selector,

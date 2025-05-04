@@ -28,7 +28,7 @@ pub struct Constants {
 
 impl RandomAlgoParameters {
     pub fn new() -> Self {
-        RandomAlgoParameters::default()
+        Self::default()
     }
 }
 
@@ -106,7 +106,7 @@ impl<R> RandomAlgoParameters<R> {
 
 impl Default for RandomAlgoParameters {
     fn default() -> Self {
-        RandomAlgoParameters {
+        Self {
             c1: 1,
             c2: 1,
             c3: 1,

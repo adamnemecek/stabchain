@@ -30,7 +30,7 @@ impl StandardPermutation {
 
     pub fn from_vec(vals: Vec<usize>) -> Self {
         crate::perm::utils::valid_images(&vals[..]).unwrap();
-        StandardPermutation::from_vec_unchecked(vals)
+        Self::from_vec_unchecked(vals)
     }
 
     pub(crate) fn from_vec_unchecked(mut vals: Vec<usize>) -> Self {
@@ -71,7 +71,7 @@ impl Permutation for StandardPermutation {
 
     fn inv(&self) -> Self {
         if self.invvals.borrow().is_some() {
-            return StandardPermutation::make_inverse(
+            return Self::make_inverse(
                 self.vals.clone(),
                 self.invvals.borrow().clone().unwrap(),
             );
@@ -83,10 +83,10 @@ impl Permutation for StandardPermutation {
 
         *self.invvals.borrow_mut() = Some(ptr.clone());
 
-        StandardPermutation::make_inverse(self.vals.clone(), ptr)
+        Self::make_inverse(self.vals.clone(), ptr)
     }
 
-    fn multiply(&self, other: &StandardPermutation) -> Self {
+    fn multiply(&self, other: &Self) -> Self {
         // id * g = g
         if self.is_id() {
             other.clone()
@@ -119,7 +119,7 @@ impl Permutation for StandardPermutation {
             };
             // TODO check for premultiplying inverses if both exist
             debug_assert!(v.len() == max(self_size, other_size) + 1);
-            StandardPermutation::from_vec_unchecked(v)
+            Self::from_vec_unchecked(v)
         }
     }
 
@@ -133,13 +133,13 @@ impl Permutation for StandardPermutation {
 
     fn shift(&self, k: usize) -> Self {
         if self.is_id() {
-            return StandardPermutation::id();
+            return Self::id();
         }
 
         let mut images: Vec<_> = (0..k).collect();
         let new_images = self.vals.iter().map(|i| i + k);
         images.extend(new_images);
-        StandardPermutation::from_vec_unchecked(images)
+        Self::from_vec_unchecked(images)
     }
 }
 
@@ -163,12 +163,12 @@ impl std::hash::Hash for StandardPermutation {
 
 impl From<Vec<usize>> for StandardPermutation {
     fn from(v: Vec<usize>) -> Self {
-        StandardPermutation::from_vec(v)
+        Self::from_vec(v)
     }
 }
 
 impl FromIterator<usize> for StandardPermutation {
     fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
-        StandardPermutation::from_vec(iter.into_iter().collect())
+        Self::from_vec(iter.into_iter().collect())
     }
 }

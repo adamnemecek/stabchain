@@ -30,7 +30,7 @@ where
     P: Permutation,
 {
     pub(super) fn new(selector: S, action: A) -> Self {
-        StabchainBuilderIft {
+        Self {
             current_pos: 0,
             chain: Vec::new(),
             selector,

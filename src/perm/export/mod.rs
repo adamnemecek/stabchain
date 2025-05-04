@@ -23,7 +23,7 @@ where
 
 impl From<ClassicalPermutation> for ExportablePermutation {
     fn from(perm: ClassicalPermutation) -> Self {
-        ExportablePermutation(perm.images())
+        Self(perm.images())
     }
 }
 

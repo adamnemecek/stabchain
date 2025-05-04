@@ -14,7 +14,7 @@ where
 {
     /// Create from the given base
     pub fn new(base: &[T]) -> Self {
-        FixedBaseSelector {
+        Self {
             base: base.to_vec(),
         }
     }
@@ -36,7 +36,7 @@ use std::iter::FromIterator;
 
 impl FromIterator<usize> for FixedBaseSelector {
     fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
-        FixedBaseSelector {
+        Self {
             base: iter.into_iter().collect(),
         }
     }

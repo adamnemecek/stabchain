@@ -177,7 +177,7 @@ mod tests {
         let g = Group::cyclic(10);
         let stab = g.stabchain();
 
-        let base = g.generators().get(0).cloned().unwrap();
+        let base = g.generators().first().cloned().unwrap();
         for i in 0..10 {
             assert!(is_in_group(stab.iter(), &base.pow(i)))
         }
@@ -317,8 +317,8 @@ mod tests {
         let mut repr = repr.unwrap();
         assert_eq!(repr.len(), stab.len());
         let mut acc = DefaultPermutation::id();
-        while !repr.is_empty() {
-            let elem = repr.pop().unwrap();
+        while let Some(elem) = repr.pop() {
+            
             acc = acc.multiply(&elem);
         }
         assert_eq!(acc, perm);

@@ -28,7 +28,7 @@ where
     P: Permutation,
 {
     pub(super) fn new(selector: S, action: A) -> Self {
-        StabchainBuilderNaive {
+        Self {
             current_pos: 0,
             chain: Vec::new(),
             selector,

@@ -41,7 +41,7 @@ fn load_libraries(zip: &str) -> Vec<DecoratedGroup<SyncPermutation>> {
 
         if let Some(p) = outpath.parent() {
             if !p.exists() {
-                std::fs::create_dir_all(&p).unwrap();
+                std::fs::create_dir_all(p).unwrap();
             }
         }
 
@@ -50,7 +50,7 @@ fn load_libraries(zip: &str) -> Vec<DecoratedGroup<SyncPermutation>> {
         paths.push(outpath);
     }
 
-    paths.iter().map(|p| group_library(p)).flatten().collect()
+    paths.iter().flat_map(|p| group_library(p)).collect()
 }
 
 fn group_library(
@@ -163,19 +163,19 @@ macro_rules! test_stabilizer_on_strategy_with_order {
 }
 
 test_stabilizer_on_strategy!(
-    NaiveBuilderStrategy::new(SimpleApplication::default(), LmpSelector::default(),),
+    NaiveBuilderStrategy::new(SimpleApplication::default(), LmpSelector,),
     test_naive_stabilizer,
     0
 );
 
 test_stabilizer_on_strategy!(
-    IftBuilderStrategy::new(SimpleApplication::default(), LmpSelector::default(),),
+    IftBuilderStrategy::new(SimpleApplication::default(), LmpSelector,),
     test_ift_stabilizer,
     0
 );
 
 test_stabilizer_on_strategy!(
-    RandomBuilderStrategyShallow::new(SimpleApplication::default(), FmpSelector::default(),),
+    RandomBuilderStrategyShallow::new(SimpleApplication::default(), FmpSelector,),
     test_random_shallow_stabilizer,
     (number_of_tests() as f32 * 0.005).floor() as usize
 );
@@ -183,7 +183,7 @@ test_stabilizer_on_strategy!(
 test_stabilizer_on_strategy!(
     RandomBuilderStrategyShallow::new_with_params(
         SimpleApplication::default(),
-        FmpSelector::default(),
+        FmpSelector,
         RandomAlgoParameters::default().quick_test(true)
     ),
     test_random_shallow_stabilizer_quick_test,
@@ -193,7 +193,7 @@ test_stabilizer_on_strategy!(
 test_stabilizer_on_strategy_with_order!(
     |order| RandomBuilderStrategyShallow::new_with_params(
         SimpleApplication::default(),
-        FmpSelector::default(),
+        FmpSelector,
         RandomAlgoParameters::default()
             .quick_test(true)
             .order(order)

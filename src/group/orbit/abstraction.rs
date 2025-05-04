@@ -71,7 +71,7 @@ where
         map: DetHashMap<A::OrbitT, P>,
         base: A::OrbitT,
     ) -> Self::AssociatedTransversal {
-        super::transversal::SimpleTransversal::from_raw(base, map, SimpleTransversalResolver)
+        super::transversal::SimpleTransversal::from_raw(base, map, Self)
     }
 }
 
@@ -122,7 +122,7 @@ where
         super::transversal::FactoredTransversal::from_raw(
             base,
             map,
-            FactoredTransversalResolver(self.0.clone()),
+            Self(self.0.clone()),
         )
     }
 }

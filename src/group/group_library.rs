@@ -46,6 +46,6 @@ where
 {
     fn from(g: Group<P>) -> Self {
         let order = g.stabchain().order();
-        DecoratedGroup::new(g, order)
+        Self::new(g, order)
     }
 }

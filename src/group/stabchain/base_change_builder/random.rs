@@ -30,7 +30,7 @@ where
     A: Action<P>,
 {
     pub(super) fn new(action: A) -> Self {
-        RandomBaseChangeBuilder {
+        Self {
             chain: Vec::new(),
             action,
         }

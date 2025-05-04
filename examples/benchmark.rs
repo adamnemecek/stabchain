@@ -29,17 +29,17 @@ impl FromStr for BenchMode {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Ok(match s {
-            "deterministic" => BenchMode::Deterministic,
-            "ift" => BenchMode::DeterministicIFT,
-            "random" => BenchMode::Random,
-            "shallow" => BenchMode::RandomShallow,
+            "deterministic" => Self::Deterministic,
+            "ift" => Self::DeterministicIFT,
+            "random" => Self::Random,
+            "shallow" => Self::RandomShallow,
             _ => return Err("Could not parse".to_string()),
         })
     }
 }
 
 fn load_libraries(paths: &[&str]) -> Vec<DecoratedGroup<DefaultPermutation>> {
-    paths.iter().map(|p| group_library(p)).flatten().collect()
+    paths.iter().flat_map(|p| group_library(p)).collect()
 }
 
 fn group_library(path: &str) -> impl IntoIterator<Item = DecoratedGroup<DefaultPermutation>> {
@@ -99,19 +99,19 @@ fn main() {
     match args.mode {
         BenchMode::Deterministic => bench(
             group_library,
-            DefaultStrategy::new(SimpleApplication::default(), LmpSelector::default()),
+            DefaultStrategy::new(SimpleApplication::default(), LmpSelector),
         ),
         BenchMode::DeterministicIFT => bench(
             group_library,
-            IftBuilderStrategy::new(SimpleApplication::default(), LmpSelector::default()),
+            IftBuilderStrategy::new(SimpleApplication::default(), LmpSelector),
         ),
         BenchMode::Random => bench(
             group_library,
-            RandomBuilderStrategyNaive::new(SimpleApplication::default(), LmpSelector::default()),
+            RandomBuilderStrategyNaive::new(SimpleApplication::default(), LmpSelector),
         ),
         BenchMode::RandomShallow => bench(
             group_library,
-            RandomBuilderStrategyShallow::new(SimpleApplication::default(), LmpSelector::default()),
+            RandomBuilderStrategyShallow::new(SimpleApplication::default(), LmpSelector),
         ),
     }
 }

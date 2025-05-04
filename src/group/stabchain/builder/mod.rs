@@ -66,7 +66,7 @@ pub struct NaiveBuilderStrategy<A, S> {
 impl<A, S> NaiveBuilderStrategy<A, S> {
     /// Create the strategy
     pub fn new(action: A, selector: S) -> Self {
-        NaiveBuilderStrategy { selector, action }
+        Self { selector, action }
     }
 }
 
@@ -96,7 +96,7 @@ pub struct IftBuilderStrategy<A, S> {
 impl<A, S> IftBuilderStrategy<A, S> {
     /// Create the strategy
     pub fn new(action: A, selector: S) -> Self {
-        IftBuilderStrategy { selector, action }
+        Self { selector, action }
     }
 }
 
@@ -136,7 +136,7 @@ pub struct RandomBuilderStrategyNaive<A, S, R = ThreadRng> {
 #[allow(deprecated)]
 impl<A, S> RandomBuilderStrategyNaive<A, S> {
     pub fn new(action: A, selector: S) -> Self {
-        RandomBuilderStrategyNaive {
+        Self {
             selector,
             action,
             params: random::parameters::RandomAlgoParameters::default(),
@@ -147,7 +147,7 @@ impl<A, S> RandomBuilderStrategyNaive<A, S> {
 #[allow(deprecated)]
 impl<A, S, R> RandomBuilderStrategyNaive<A, S, R> {
     pub fn new_with_params(action: A, selector: S, params: RandomAlgoParameters<R>) -> Self {
-        RandomBuilderStrategyNaive {
+        Self {
             selector,
             action,
             params,
@@ -183,7 +183,7 @@ pub struct RandomBuilderStrategyShallow<A, S, R = ThreadRng> {
 
 impl<A, S> RandomBuilderStrategyShallow<A, S> {
     pub fn new(action: A, selector: S) -> Self {
-        RandomBuilderStrategyShallow {
+        Self {
             action,
             selector,
             params: RandomAlgoParameters::default(),
@@ -193,7 +193,7 @@ impl<A, S> RandomBuilderStrategyShallow<A, S> {
 
 impl<A, S, R> RandomBuilderStrategyShallow<A, S, R> {
     pub fn new_with_params(action: A, selector: S, params: RandomAlgoParameters<R>) -> Self {
-        RandomBuilderStrategyShallow {
+        Self {
             selector,
             action,
             params,

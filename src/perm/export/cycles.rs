@@ -14,7 +14,7 @@ pub struct CyclePermutation {
 
 impl CyclePermutation {
     pub fn id() -> Self {
-        CyclePermutation::from_vec(Vec::new())
+        Self::from_vec(Vec::new())
     }
 
     /// Take some images in the 1..=n range and output a cycled repr
@@ -34,7 +34,7 @@ impl CyclePermutation {
         let n = cycles.iter().flatten().max().cloned().unwrap_or(0);
 
         if n == 0 {
-            return CyclePermutation::from_vec_unchecked(cycles);
+            return Self::from_vec_unchecked(cycles);
         }
 
         let mut counts = DetHashMap::default();
@@ -46,7 +46,7 @@ impl CyclePermutation {
         // Check every element occurs at most once
         assert!(counts.values().all(|&i| i <= 1));
 
-        CyclePermutation::from_vec_unchecked(cycles)
+        Self::from_vec_unchecked(cycles)
     }
 
     /// Get the order of the permutations
@@ -56,11 +56,11 @@ impl CyclePermutation {
 
     /// Been needing this for a while. (1 2 3)
     pub fn single_cycle(cycle: &[usize]) -> Self {
-        Self::from_vec(vec![cycle.iter().copied().collect()])
+        Self::from_vec(vec![cycle.to_vec()])
     }
 
     fn from_vec_unchecked(v: Vec<Vec<usize>>) -> Self {
-        CyclePermutation { cycles: v }
+        Self { cycles: v }
     }
 
     pub fn cycles(&self) -> &[Vec<usize>] {
@@ -78,7 +78,7 @@ where
     P: Permutation,
 {
     fn from(perm: P) -> Self {
-        CyclePermutation::from(ClassicalPermutation::from(perm))
+        Self::from(ClassicalPermutation::from(perm))
     }
 }
 
@@ -108,7 +108,7 @@ impl From<ClassicalPermutation> for CyclePermutation {
         let n = perm.lmp();
         // This path means that the permutation is the identity
         if n.is_none() {
-            return CyclePermutation::from_vec_unchecked(Vec::new());
+            return Self::from_vec_unchecked(Vec::new());
         }
 
         let n = n.unwrap();
@@ -140,7 +140,7 @@ impl From<ClassicalPermutation> for CyclePermutation {
             }
         }
 
-        CyclePermutation::from_vec_unchecked(cycles)
+        Self::from_vec_unchecked(cycles)
     }
 }
 

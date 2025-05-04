@@ -53,7 +53,7 @@ where
                 break;
             }
         }
-        Cube {
+        Self {
             orbit,
             cube: cubes.pop().unwrap(),
             depth,

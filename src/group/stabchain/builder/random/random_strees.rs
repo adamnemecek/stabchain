@@ -55,7 +55,7 @@ where
 {
     pub fn new(selector: S, action: A, params: RandomAlgoParameters<R>) -> Self {
         let (constants, random) = params.consts();
-        StabchainBuilderRandomSTrees {
+        Self {
             chain: Vec::new(),
             selector,
             action,
@@ -226,7 +226,7 @@ where
     /// Check if adding a new element modifies the current layer of the chain.
     fn check_transversal_augmentation(&mut self, p: &P, level: usize, check_transversal: bool) {
         debug!(level = level, perm = %p, "Checking transversal augmentation with perm");
-        let mut record = &mut self.chain[level];
+        let record = &mut self.chain[level];
         // We optionally check if this element alters the transversal
         if check_transversal
             && record

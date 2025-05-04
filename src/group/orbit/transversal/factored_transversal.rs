@@ -97,7 +97,7 @@ where
     /// let fc = FactoredTransversal::from_generators(1, &[DefaultPermutation::from_images(&[1, 0])]);
     ///```
     pub fn from_generators(base: usize, gens: &[P]) -> Self {
-        FactoredTransversal::new(&Group::new(gens), base)
+        Self::new(&Group::new(gens), base)
     }
 }
 
@@ -108,7 +108,7 @@ where
 {
     /// Build a factored transversal using a predefined action
     pub fn new_with_action(g: &Group<P>, base: A::OrbitT, strat: &A) -> Self {
-        FactoredTransversal::from_raw(
+        Self::from_raw(
             base.clone(),
             factored_transversal(g, base, strat),
             FactoredTransversalResolver(strat.clone()),

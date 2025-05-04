@@ -32,12 +32,12 @@ pub struct Group<P = DefaultPermutation> {
 impl Group {
     /// Generates the trivial group, which only contains the identity
     pub fn trivial() -> Self {
-        Group::new(&[])
+        Self::new(&[])
     }
 
     /// Creates the Klein 4 group
     pub fn klein_4() -> Self {
-        Group::new(&[
+        Self::new(&[
             CyclePermutation::single_cycle(&[1, 2]).into_perm(),
             CyclePermutation::single_cycle(&[3, 4]).into_perm(),
         ])
@@ -48,10 +48,10 @@ impl Group {
         //https://math.stackexchange.com/questions/3614294/choice-of-generator-in-dihedral-group
         assert!(n > 0);
         if n == 1 {
-            return Group::cyclic(2);
+            return Self::cyclic(2);
         }
         if n == 2 {
-            return Group::klein_4();
+            return Self::klein_4();
         }
 
         let reflection_perm = if n % 2 == 0 {
@@ -65,14 +65,14 @@ impl Group {
         }
         .into_perm();
 
-        Group::new(&[reflection_perm, order_n_permutation(1, n)])
+        Self::new(&[reflection_perm, order_n_permutation(1, n)])
     }
 
     /// Generate the cyclical group on n elements (more accurately, generates the cyclical group from a cycle on 1..=n)
     pub fn cyclic(n: usize) -> Self {
         assert!(n > 0);
 
-        Group::new(&[order_n_permutation(1, n)])
+        Self::new(&[order_n_permutation(1, n)])
     }
 
     /// Generate the alternating group on n points
@@ -96,7 +96,7 @@ impl Group {
             return Self::trivial();
         }
 
-        Group::new(&[
+        Self::new(&[
             CyclePermutation::single_cycle(&[1, 2]).into_perm(),
             order_n_permutation(1, n),
         ])
@@ -105,8 +105,8 @@ impl Group {
 
 impl<P> Group<P> {
     /// To be used when the element is not a permutation. Note this does not check id
-    pub fn from_list<T: IntoIterator<Item = P>>(iter: T) -> Group<P> {
-        Group {
+    pub fn from_list<T: IntoIterator<Item = P>>(iter: T) -> Self {
+        Self {
             generators: iter.into_iter().collect(),
         }
     }
@@ -140,7 +140,7 @@ where
     pub fn deduplicate(&self) -> Self {
         use crate::DetHashSet;
         let set: DetHashSet<_> = self.generators.iter().cloned().collect();
-        Group::from_list(set.into_iter())
+        Self::from_list(set)
     }
 
     /// Create a random generator for elements of the group
@@ -362,9 +362,9 @@ impl<P> FromIterator<P> for Group<P>
 where
     P: Permutation,
 {
-    fn from_iter<T: IntoIterator<Item = P>>(iter: T) -> Group<P> {
+    fn from_iter<T: IntoIterator<Item = P>>(iter: T) -> Self {
         let v = iter.into_iter().filter(|p| !p.is_id()).collect();
-        Group { generators: v }
+        Self { generators: v }
     }
 }
 
@@ -483,7 +483,7 @@ mod tests {
         let reg = g.random_n_generators(30);
 
         // We subtract the identity
-        assert!(reg.generators().len() <= 24 - 1);
+        assert!(reg.generators().len() < 24);
     }
 
     #[test]

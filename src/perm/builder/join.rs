@@ -39,7 +39,7 @@ pub struct MultiJoin<P> {
 
 impl<P> FromIterator<P> for MultiJoin<P> {
     fn from_iter<T: IntoIterator<Item = P>>(iter: T) -> Self {
-        MultiJoin {
+        Self {
             args: iter.into_iter().collect(),
         }
     }

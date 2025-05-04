@@ -194,7 +194,7 @@ where
             record.transversal =
                 factored_transversal_complete_opt(record.group(), record.base.clone(), &strat)
         });
-        Stabchain { chain }
+        Self { chain }
     }
 }
 
@@ -252,7 +252,7 @@ where
         gens: Group<P>,
         transversal: DetHashMap<A::OrbitT, P>,
     ) -> Self {
-        StabchainRecord {
+        Self {
             base,
             gens,
             transversal,
@@ -262,7 +262,7 @@ where
     }
     ///Create a trivial record that represents the trivial group.
     pub(crate) fn trivial_record(base: A::OrbitT) -> Self {
-        StabchainRecord {
+        Self {
             base: base.clone(),
             gens: Group::new(&[]),
             transversal: [(base, P::id())].iter().cloned().collect(),
@@ -722,14 +722,14 @@ mod tests {
     stabchain_tests!(
         |_g| NaiveBuilderStrategy::new(
             SimpleApplication::default(),
-            crate::group::stabchain::base::selectors::LmpSelector::default()
+            crate::group::stabchain::base::selectors::LmpSelector
         ),
         naive
     );
     stabchain_tests!(
         |_g| IftBuilderStrategy::new(
             SimpleApplication::default(),
-            crate::group::stabchain::base::selectors::LmpSelector::default()
+            crate::group::stabchain::base::selectors::LmpSelector
         ),
         ift
     );
@@ -739,7 +739,7 @@ mod tests {
             use rand::SeedableRng;
             RandomBuilderStrategyNaive::new_with_params(
                 SimpleApplication::default(),
-                crate::group::stabchain::base::selectors::FmpSelector::default(),
+                crate::group::stabchain::base::selectors::FmpSelector,
                 RandomAlgoParameters::default()
                     .rng(rand_xorshift::XorShiftRng::from_seed([58; 16])),
             )
@@ -752,7 +752,7 @@ mod tests {
             use rand::SeedableRng;
             RandomBuilderStrategyNaive::new_with_params(
                 SimpleApplication::default(),
-                crate::group::stabchain::base::selectors::FmpSelector::default(),
+                crate::group::stabchain::base::selectors::FmpSelector,
                 RandomAlgoParameters::default()
                     .rng(rand_xorshift::XorShiftRng::from_seed([58; 16]))
                     .order(g),
@@ -766,7 +766,7 @@ mod tests {
             use rand::SeedableRng;
             RandomBuilderStrategyNaive::new_with_params(
                 SimpleApplication::default(),
-                crate::group::stabchain::base::selectors::FmpSelector::default(),
+                crate::group::stabchain::base::selectors::FmpSelector,
                 RandomAlgoParameters::default()
                     .rng(rand_xorshift::XorShiftRng::from_seed([33; 16]))
                     .quick_test(true),
@@ -780,7 +780,7 @@ mod tests {
             use rand::SeedableRng;
             RandomBuilderStrategyShallow::new_with_params(
                 SimpleApplication::default(),
-                crate::group::stabchain::base::selectors::FmpSelector::default(),
+                crate::group::stabchain::base::selectors::FmpSelector,
                 RandomAlgoParameters::default()
                     .rng(rand_xorshift::XorShiftRng::from_seed([52; 16])),
             )
@@ -793,7 +793,7 @@ mod tests {
             use rand::SeedableRng;
             RandomBuilderStrategyShallow::new_with_params(
                 SimpleApplication::default(),
-                crate::group::stabchain::base::selectors::FmpSelector::default(),
+                crate::group::stabchain::base::selectors::FmpSelector,
                 RandomAlgoParameters::default()
                     .rng(rand_xorshift::XorShiftRng::from_seed([42; 16]))
                     .quick_test(true),

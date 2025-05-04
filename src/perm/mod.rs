@@ -28,7 +28,7 @@ pub trait Permutation: Clone + Eq + Hash + Debug + Display {
     fn images(&self) -> Vec<usize> {
         self.lmp()
             .map(|n| (0..=n).map(|i| self.apply(i)).collect())
-            .unwrap_or_else(Vec::new)
+            .unwrap_or_default()
     }
 
     /// Get the identity
@@ -50,7 +50,7 @@ pub trait Permutation: Clone + Eq + Hash + Debug + Display {
     fn pow(&self, pow: isize) -> Self {
         let perm = if pow < 0 { self.inv() } else { self.clone() };
 
-        builder::pow::pow(perm, pow.abs() as usize)
+        builder::pow::pow(perm, pow.unsigned_abs())
     }
 
     /// Shift the permutation some places on the right

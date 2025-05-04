@@ -18,7 +18,7 @@ impl BasedPermutation {
 
         let perm = StandardPermutation::from_vec_unchecked(values);
         if perm.is_id() {
-            return BasedPermutation::id();
+            return Self::id();
         }
 
         Self { base, perm }
@@ -27,7 +27,7 @@ impl BasedPermutation {
 
 impl Permutation for BasedPermutation {
     fn id() -> Self {
-        BasedPermutation {
+        Self {
             base: 0,
             perm: Permutation::id(),
         }
@@ -38,7 +38,7 @@ impl Permutation for BasedPermutation {
             return self.clone();
         }
 
-        BasedPermutation {
+        Self {
             base: self.base + k,
             perm: self.perm.clone(),
         }
@@ -58,35 +58,35 @@ impl Permutation for BasedPermutation {
 
     fn from_images(images: &[usize]) -> Self {
         crate::perm::utils::valid_images(images).unwrap();
-        BasedPermutation::from_vec_unchecked(images)
+        Self::from_vec_unchecked(images)
     }
 
     fn inv(&self) -> Self {
-        BasedPermutation {
+        Self {
             perm: self.perm.inv(),
             base: self.base,
         }
     }
 
-    fn multiply(&self, other: &BasedPermutation) -> Self {
+    fn multiply(&self, other: &Self) -> Self {
         let result = if self.is_id() {
             other.clone()
         } else if other.is_id() {
             self.clone()
         } else if self.base == other.base {
-            BasedPermutation {
+            Self {
                 perm: self.perm.multiply(&other.perm),
                 base: self.base,
             }
         } else if self.base < other.base {
-            BasedPermutation {
+            Self {
                 base: self.base,
                 perm: self
                     .perm
                     .multiply(&other.perm.shift(other.base - self.base)),
             }
         } else {
-            BasedPermutation {
+            Self {
                 base: other.base,
                 perm: self
                     .perm
@@ -96,13 +96,13 @@ impl Permutation for BasedPermutation {
         };
 
         if result.perm.is_id() {
-            return BasedPermutation::id();
+            return Self::id();
         }
 
         let perm_images = result.perm.as_vec();
         let new_based = Self::from_images(perm_images);
 
-        BasedPermutation {
+        Self {
             base: result.base + new_based.base,
             perm: new_based.perm,
         }
@@ -111,9 +111,9 @@ impl Permutation for BasedPermutation {
     fn pow(&self, pow: isize) -> Self {
         let perm = self.perm.pow(pow);
         if perm.is_id() {
-            BasedPermutation::id()
+            Self::id()
         } else {
-            BasedPermutation {
+            Self {
                 perm,
                 base: self.base,
             }
@@ -125,7 +125,7 @@ impl Permutation for BasedPermutation {
     }
 
     /// Computes f * g^-1
-    fn divide(&self, other: &BasedPermutation) -> Self {
+    fn divide(&self, other: &Self) -> Self {
         self.multiply(&other.inv())
     }
 

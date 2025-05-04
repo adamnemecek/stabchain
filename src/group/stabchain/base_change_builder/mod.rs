@@ -55,7 +55,7 @@ pub struct RandomBaseChangeStrategy<A> {
 impl<A> RandomBaseChangeStrategy<A> {
     /// Create the strategy
     pub fn new(action: A) -> Self {
-        RandomBaseChangeStrategy { action }
+        Self { action }
     }
 }
 

@@ -29,7 +29,7 @@ where
         transversal: DetHashMap<A::OrbitT, P>,
         resolver: R,
     ) -> Self {
-        TransversalSkeleton {
+        Self {
             base,
             transversal,
             resolver,

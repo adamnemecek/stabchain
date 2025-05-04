@@ -15,7 +15,7 @@ where
 {
     /// Custom initialiser that can take a vector capacity.
     pub(crate) fn id_with_capacity(capacity: usize) -> Self {
-        WordPermutation {
+        Self {
             word: Vec::with_capacity(capacity),
         }
     }
@@ -61,7 +61,7 @@ where
     /// Lazily evaluate the inverse of the permutation, using the identify (ab)^-1 = b^-1a^-1
     pub fn inv_lazy(&self) -> Self {
         // We know each word is not the identity, so it's inverse isn't either.
-        WordPermutation {
+        Self {
             word: self.word.iter().map(|p| p.inv()).rev().collect(),
         }
     }
@@ -95,7 +95,7 @@ where
     P: Permutation,
 {
     fn from_iter<T: IntoIterator<Item = P>>(iter: T) -> Self {
-        WordPermutation {
+        Self {
             word: iter.into_iter().filter(|p| !p.is_id()).collect(),
         }
     }
@@ -226,11 +226,9 @@ mod tests {
 
     #[test]
     fn inv_lazy() {
-        let images = vec![
-            vec![0, 2, 1],
+        let images = [vec![0, 2, 1],
             vec![0, 1, 2, 4, 3],
-            vec![0, 1, 2, 3, 4, 5, 7, 6],
-        ];
+            vec![0, 1, 2, 3, 4, 5, 7, 6]];
         let perms = images
             .iter()
             .map(|arr| DefaultPermutation::from_images(arr));
@@ -249,11 +247,9 @@ mod tests {
 
     #[test]
     fn lmp_upper_bound() {
-        let images = vec![
-            vec![0, 2, 1],
+        let images = [vec![0, 2, 1],
             vec![0, 1, 2, 4, 3],
-            vec![0, 1, 2, 3, 4, 5, 7, 6],
-        ];
+            vec![0, 1, 2, 3, 4, 5, 7, 6]];
         let perms = images
             .iter()
             .map(|arr| DefaultPermutation::from_images(arr));
@@ -265,7 +261,7 @@ mod tests {
 
     #[test]
     fn lmp_not_eq_ub() {
-        let images = vec![vec![0, 1, 2, 4, 3], vec![0, 1, 2, 4, 3]];
+        let images = [vec![0, 1, 2, 4, 3], vec![0, 1, 2, 4, 3]];
         let perms = images
             .iter()
             .map(|arr| DefaultPermutation::from_images(arr));
