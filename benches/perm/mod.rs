@@ -1,13 +1,20 @@
 pub mod comparison;
 
-use criterion::{black_box, criterion_group, BenchmarkId, Criterion};
+use criterion::{
+    black_box,
+    criterion_group,
+    BenchmarkId,
+    Criterion,
+};
 
 use std::iter::FromIterator;
 
-use stabchain::perm::builder::PermBuilder;
-use stabchain::perm::impls::standard::StandardPermutation;
-use stabchain::perm::utils::random_permutation;
-use stabchain::perm::*;
+use stabchain::perm::{
+    builder::PermBuilder,
+    impls::standard::StandardPermutation,
+    utils::random_permutation,
+    *,
+};
 
 const RANGE_OF_VALUES: [usize; 7] = [8, 16, 32, 64, 128, 256, 512];
 
@@ -101,8 +108,10 @@ fn order_efficiency(c: &mut Criterion) {
             b.iter(|| order_cycle(&perm))
         });
         group.bench_with_input(BenchmarkId::new("parallel", i), i, |b, i| {
-            use rayon::prelude::*;
-            use stabchain::perm::impls::sync::SyncPermutation;
+            use {
+                rayon::prelude::*,
+                stabchain::perm::impls::sync::SyncPermutation,
+            };
             let perm = random_permutation::<SyncPermutation>(*i);
             b.iter(|| match perm.lmp() {
                 Some(n) => (0..n)

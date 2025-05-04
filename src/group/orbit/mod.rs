@@ -3,12 +3,21 @@
 pub mod abstraction;
 pub mod transversal;
 
-use crate::group::Group;
-use crate::perm::actions::SimpleApplication;
-use crate::perm::{Action, Permutation};
-use crate::DetHashSet;
-use std::collections::VecDeque;
-use std::fmt::Debug;
+use {
+    crate::{
+        group::Group,
+        perm::{
+            actions::SimpleApplication,
+            Action,
+            Permutation,
+        },
+        DetHashSet,
+    },
+    std::{
+        collections::VecDeque,
+        fmt::Debug,
+    },
+};
 
 /// w^G = { w^g | g \in G }
 #[derive(Debug)]

@@ -1,13 +1,28 @@
 //! Transversal using a Schrier Vector approach to save memory over standard
 
-use super::skeleton::TransversalSkeleton;
-use crate::group::orbit::transversal::Transversal;
-use crate::group::Group;
-use crate::perm::actions::SimpleApplication;
-use crate::perm::{Action, DefaultPermutation, Permutation};
+use {
+    super::skeleton::TransversalSkeleton,
+    crate::{
+        group::{
+            orbit::transversal::Transversal,
+            Group,
+        },
+        perm::{
+            actions::SimpleApplication,
+            Action,
+            DefaultPermutation,
+            Permutation,
+        },
+    },
+};
 
-use crate::DetHashMap;
-use std::collections::{HashMap, VecDeque};
+use {
+    crate::DetHashMap,
+    std::collections::{
+        HashMap,
+        VecDeque,
+    },
+};
 
 use crate::group::orbit::abstraction::FactoredTransversalResolver;
 
@@ -122,11 +137,7 @@ where
     P: fmt::Display + Permutation,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "[FactoredTransversal: base := {}, elements := {{",
-            self.base() + 1,
-        )?;
+        write!(f, "[FactoredTransversal: base := {}, elements := {{", self.base() + 1,)?;
 
         for (orbit, repr) in self.raw_elements() {
             write!(f, "({}, {}) ", orbit + 1, repr)?
@@ -137,11 +148,7 @@ where
 }
 
 /// Computes the factored transversal for a Group
-pub fn factored_transversal<P, A>(
-    g: &Group<P>,
-    base: A::OrbitT,
-    strat: &A,
-) -> DetHashMap<A::OrbitT, P>
+pub fn factored_transversal<P, A>(g: &Group<P>, base: A::OrbitT, strat: &A) -> DetHashMap<A::OrbitT, P>
 where
     P: Permutation,
     A: Action<P>,
@@ -172,11 +179,7 @@ where
 }
 
 /// Computes the factored transversal for a Group. Use optmization on complete orbits
-pub fn factored_transversal_complete_opt<P, A>(
-    g: &Group<P>,
-    base: A::OrbitT,
-    strat: &A,
-) -> DetHashMap<A::OrbitT, P>
+pub fn factored_transversal_complete_opt<P, A>(g: &Group<P>, base: A::OrbitT, strat: &A) -> DetHashMap<A::OrbitT, P>
 where
     P: Permutation,
     A: Action<P>,
@@ -213,8 +216,16 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::{FactoredTransversal, Transversal};
-    use crate::perm::{DefaultPermutation, Permutation};
+    use {
+        super::{
+            FactoredTransversal,
+            Transversal,
+        },
+        crate::perm::{
+            DefaultPermutation,
+            Permutation,
+        },
+    };
 
     /// Test the factored transversal calculation for a generating set with multiple generators.
     #[test]

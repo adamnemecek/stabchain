@@ -1,15 +1,32 @@
-use super::Stabchain;
-use crate::group::orbit::abstraction::FactoredTransversalResolver;
-use crate::group::orbit::transversal::factored_transversal::representative_raw;
-use crate::group::stabchain::base::selectors::BaseSelector;
-use crate::group::stabchain::{element_testing, StabchainRecord};
-use crate::group::Group;
-use crate::perm::actions::SimpleApplication;
-use crate::perm::{Action, Permutation};
-use crate::DetHashMap;
-use std::collections::VecDeque;
+use {
+    super::Stabchain,
+    crate::{
+        group::{
+            orbit::{
+                abstraction::FactoredTransversalResolver,
+                transversal::factored_transversal::representative_raw,
+            },
+            stabchain::{
+                base::selectors::BaseSelector,
+                element_testing,
+                StabchainRecord,
+            },
+            Group,
+        },
+        perm::{
+            actions::SimpleApplication,
+            Action,
+            Permutation,
+        },
+        DetHashMap,
+    },
+    std::collections::VecDeque,
+};
 
-use tracing::{debug, trace};
+use tracing::{
+    debug,
+    trace,
+};
 
 // Helper struct, used to build the stabilizer chain
 #[derive(Debug)]
@@ -42,9 +59,7 @@ where
         self.current_pos == self.chain.len()
     }
 
-    fn current_chain(
-        &self,
-    ) -> impl Iterator<Item = &StabchainRecord<P, FactoredTransversalResolver<A>, A>> {
+    fn current_chain(&self) -> impl Iterator<Item = &StabchainRecord<P, FactoredTransversalResolver<A>, A>> {
         self.chain.iter().skip(self.current_pos)
     }
 }
@@ -113,23 +128,14 @@ where
             let new_image = self.action.apply(&p, orbit_element);
 
             // If we already saw the element
-            if record.transversal.contains_key(&new_image)
-                || new_transversal.contains_key(&new_image)
-            {
+            if record.transversal.contains_key(&new_image) || new_transversal.contains_key(&new_image) {
                 let image_repr = representative_raw(
                     &record.transversal,
                     record.base.clone(),
                     new_image.clone(),
                     &self.action,
                 )
-                .or_else(|| {
-                    representative_raw(
-                        &new_transversal,
-                        record.base.clone(),
-                        new_image,
-                        &self.action,
-                    )
-                })
+                .or_else(|| representative_raw(&new_transversal, record.base.clone(), new_image, &self.action))
                 .unwrap();
 
                 let new_perm = orbit_element_repr.multiply(&p).multiply(&image_repr.inv());
@@ -173,15 +179,11 @@ where
                     .unwrap();
 
                     // Extend lower level
-                    let new_perm = orbit_element_repr
-                        .multiply(generator)
-                        .multiply(&image_repr.inv());
+                    let new_perm = orbit_element_repr.multiply(generator).multiply(&image_repr.inv());
                     self.extend_lower_level(new_perm);
                 } else {
                     // Store in transversal
-                    record
-                        .transversal
-                        .insert(new_image.clone(), generator.inv());
+                    record.transversal.insert(new_image.clone(), generator.inv());
 
                     // Update and ask to check the new image
                     to_check.push_back(new_image);
@@ -190,10 +192,7 @@ where
         }
 
         // Update the generators adding p
-        record.gens = std::iter::once(&p)
-            .chain(record.gens.generators())
-            .cloned()
-            .collect();
+        record.gens = std::iter::once(&p).chain(record.gens.generators()).cloned().collect();
 
         // Store the updated record in the chain
         self.chain[self.current_pos] = record;

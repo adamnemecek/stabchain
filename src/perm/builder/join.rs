@@ -1,6 +1,8 @@
-use super::PermBuilder;
-use crate::perm::Permutation;
-use std::iter::FromIterator;
+use {
+    super::PermBuilder,
+    crate::perm::Permutation,
+    std::iter::FromIterator,
+};
 
 #[derive(Debug, Clone)]
 pub struct Join<First, Second> {
@@ -66,16 +68,18 @@ impl<P: Clone + Permutation> PermBuilder<P> for MultiJoin<P> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-    use crate::perm::{builder::PermBuilder, DefaultPermutation};
+    use {
+        super::*,
+        crate::perm::{
+            builder::PermBuilder,
+            DefaultPermutation,
+        },
+    };
 
     #[test]
     fn test_single_join() {
         let cycle = DefaultPermutation::from_images(&[1, 2, 0]);
-        assert_eq!(
-            cycle.multiply(&cycle),
-            cycle.build_multiply(&cycle).collapse()
-        )
+        assert_eq!(cycle.multiply(&cycle), cycle.build_multiply(&cycle).collapse())
     }
 
     #[test]

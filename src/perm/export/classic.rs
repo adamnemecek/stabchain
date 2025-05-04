@@ -1,5 +1,10 @@
-use super::cycles::CyclePermutation;
-use crate::perm::{impls::standard::StandardPermutation, Permutation};
+use {
+    super::cycles::CyclePermutation,
+    crate::perm::{
+        impls::standard::StandardPermutation,
+        Permutation,
+    },
+};
 
 /// A permutation, that is on the integral set [1, n].
 /// It is called classical as classically this is how permutations are stored
@@ -104,15 +109,13 @@ macro_rules! impl_all {
 }
 
 use crate::perm::impls::{
-    based::BasedPermutation, map::MapPermutation, sync::SyncPermutation, word::WordPermutation,
+    based::BasedPermutation,
+    map::MapPermutation,
+    sync::SyncPermutation,
+    word::WordPermutation,
 };
 
-impl_all!(
-    BasedPermutation,
-    MapPermutation,
-    SyncPermutation,
-    WordPermutation
-);
+impl_all!(BasedPermutation, MapPermutation, SyncPermutation, WordPermutation);
 
 #[cfg(test)]
 mod tests {

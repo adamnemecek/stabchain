@@ -1,14 +1,26 @@
-use std::fs::File;
-use std::io::BufReader;
-use std::str::FromStr;
-use structopt::StructOpt;
+use {
+    std::{
+        fs::File,
+        io::BufReader,
+        str::FromStr,
+    },
+    structopt::StructOpt,
+};
 
-use stabchain::group::group_library::DecoratedGroup;
-use stabchain::group::stabchain::base::selectors::LmpSelector;
-use stabchain::group::stabchain::builder::*;
-use stabchain::perm::actions::SimpleApplication;
-use stabchain::perm::export::ExportablePermutation;
-use stabchain::perm::*;
+use stabchain::{
+    group::{
+        group_library::DecoratedGroup,
+        stabchain::{
+            base::selectors::LmpSelector,
+            builder::*,
+        },
+    },
+    perm::{
+        actions::SimpleApplication,
+        export::ExportablePermutation,
+        *,
+    },
+};
 
 use std::time::Instant;
 
@@ -46,8 +58,7 @@ fn group_library(path: &str) -> impl IntoIterator<Item = DecoratedGroup<DefaultP
     let input = File::open(path).unwrap();
     let input = BufReader::new(input);
 
-    let groups: Vec<DecoratedGroup<ExportablePermutation>> =
-        serde_json::from_reader(input).unwrap();
+    let groups: Vec<DecoratedGroup<ExportablePermutation>> = serde_json::from_reader(input).unwrap();
     groups.into_iter().map(|g| g.map(DefaultPermutation::from))
 }
 

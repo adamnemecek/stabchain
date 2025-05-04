@@ -1,9 +1,11 @@
 use crate::perm::Permutation;
 
-use std::cell::RefCell;
-use std::cmp::max;
-use std::iter::FromIterator;
-use std::rc::Rc;
+use std::{
+    cell::RefCell,
+    cmp::max,
+    iter::FromIterator,
+    rc::Rc,
+};
 
 /// Represents a permutation
 /// The vals are reference counted and stored to allow for easy copy
@@ -110,9 +112,7 @@ impl Permutation for StandardPermutation {
                 result
             } else {
                 // Otherwise we can skip bounds checking for self
-                (0..self_size + 1)
-                    .map(|x| other.apply(self.vals[x]))
-                    .collect()
+                (0..self_size + 1).map(|x| other.apply(self.vals[x])).collect()
             };
             // TODO check for premultiplying inverses if both exist
             debug_assert!(v.len() == max(self_size, other_size) + 1);

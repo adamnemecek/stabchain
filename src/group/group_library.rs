@@ -1,8 +1,18 @@
-use num::BigUint;
-use serde::{Deserialize, Serialize};
+use {
+    num::BigUint,
+    serde::{
+        Deserialize,
+        Serialize,
+    },
+};
 
-use super::Group;
-use crate::perm::{DefaultPermutation, Permutation};
+use {
+    super::Group,
+    crate::perm::{
+        DefaultPermutation,
+        Permutation,
+    },
+};
 
 /// A simple struct that keeps track of additional information of a group, such
 /// as the order. This is very useful for testing stabilizer chains

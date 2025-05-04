@@ -1,7 +1,9 @@
 use crate::perm::Permutation;
 
-use std::iter::FromIterator;
-use std::sync::Arc;
+use std::{
+    iter::FromIterator,
+    sync::Arc,
+};
 
 use super::standard::StandardPermutation;
 
@@ -91,9 +93,7 @@ impl Permutation for SyncPermutation {
                 result
             } else {
                 // Otherwise we can skip bounds checking for self
-                (0..self_size + 1)
-                    .map(|x| other.apply(self.vals[x]))
-                    .collect()
+                (0..self_size + 1).map(|x| other.apply(self.vals[x])).collect()
             };
             Self::from_vec_unchecked(v)
         }

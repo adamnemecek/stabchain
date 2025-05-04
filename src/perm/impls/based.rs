@@ -1,5 +1,7 @@
-use crate::perm::impls::standard::StandardPermutation;
-use crate::perm::Permutation;
+use crate::perm::{
+    impls::standard::StandardPermutation,
+    Permutation,
+};
 
 #[derive(Debug, Clone, Eq)]
 pub struct BasedPermutation {
@@ -81,17 +83,12 @@ impl Permutation for BasedPermutation {
         } else if self.base < other.base {
             Self {
                 base: self.base,
-                perm: self
-                    .perm
-                    .multiply(&other.perm.shift(other.base - self.base)),
+                perm: self.perm.multiply(&other.perm.shift(other.base - self.base)),
             }
         } else {
             Self {
                 base: other.base,
-                perm: self
-                    .perm
-                    .shift(self.base - other.base)
-                    .multiply(&other.perm),
+                perm: self.perm.shift(self.base - other.base).multiply(&other.perm),
             }
         };
 
@@ -113,10 +110,7 @@ impl Permutation for BasedPermutation {
         if perm.is_id() {
             Self::id()
         } else {
-            Self {
-                perm,
-                base: self.base,
-            }
+            Self { perm, base: self.base }
         }
     }
 

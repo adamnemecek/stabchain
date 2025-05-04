@@ -14,11 +14,7 @@ impl<F, S> PartialSelector<F, S> {
     /// Create a new selector, that uses the first selector for limit number of points, and
     /// the second from there on
     pub fn new(first: F, limit: usize, second: S) -> Self {
-        Self {
-            limit,
-            first,
-            second,
-        }
+        Self { limit, first, second }
     }
 }
 
@@ -48,11 +44,7 @@ where
     pub fn new(base: &[T], after_partial: S) -> Self {
         // Create a partial selector that uses the fixed base first and then the second selector.
         Self {
-            selector: PartialSelector::new(
-                super::FixedBaseSelector::new(base),
-                base.len(),
-                after_partial,
-            ),
+            selector: PartialSelector::new(super::FixedBaseSelector::new(base), base.len(), after_partial),
         }
     }
 }
@@ -98,8 +90,13 @@ mod tests {
 
     #[test]
     fn partial_lmp() {
-        use super::super::{FixedBaseSelector, LmpSelector};
-        use crate::group::Group;
+        use {
+            super::super::{
+                FixedBaseSelector,
+                LmpSelector,
+            },
+            crate::group::Group,
+        };
 
         use crate::perm::*;
 
@@ -113,17 +110,17 @@ mod tests {
             assert_eq!(selector.moved_point(&perm, i), i);
         }
 
-        for (i, perm) in
-            (6..20).zip(std::iter::repeat_with(|| rand.random_permutation()).filter(|p| !p.is_id()))
-        {
+        for (i, perm) in (6..20).zip(std::iter::repeat_with(|| rand.random_permutation()).filter(|p| !p.is_id())) {
             assert_eq!(selector.moved_point(&perm, i), perm.lmp().unwrap());
         }
     }
 
     #[test]
     fn partial_fixed_base_lmp() {
-        use super::super::LmpSelector;
-        use crate::group::Group;
+        use {
+            super::super::LmpSelector,
+            crate::group::Group,
+        };
 
         use crate::perm::*;
 
@@ -137,9 +134,7 @@ mod tests {
             assert_eq!(selector.moved_point(&perm, i), i);
         }
 
-        for (i, perm) in
-            (6..20).zip(std::iter::repeat_with(|| rand.random_permutation()).filter(|p| !p.is_id()))
-        {
+        for (i, perm) in (6..20).zip(std::iter::repeat_with(|| rand.random_permutation()).filter(|p| !p.is_id())) {
             assert_eq!(selector.moved_point(&perm, i), perm.lmp().unwrap());
         }
     }

@@ -77,9 +77,13 @@ mod tests {
         ($id:ty, $testing:expr, $name:ident) => {
             mod $name {
 
-                use super::super::*;
-                use crate::perm::utils::random_permutation;
-                use crate::perm::DefaultPermutation;
+                use {
+                    super::super::*,
+                    crate::perm::{
+                        utils::random_permutation,
+                        DefaultPermutation,
+                    },
+                };
 
                 #[test]
                 fn test_identity() {

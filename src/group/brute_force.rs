@@ -1,8 +1,12 @@
 //! Mod which contains a deprecated utility for bruteforcing group elements
 
-use super::Group;
-use crate::perm::Permutation;
-use crate::DetHashSet;
+use {
+    super::Group,
+    crate::{
+        perm::Permutation,
+        DetHashSet,
+    },
+};
 
 use std::collections::VecDeque;
 

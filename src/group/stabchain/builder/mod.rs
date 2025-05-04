@@ -1,15 +1,28 @@
 //! Traits for creating chains
 
-use super::Stabchain;
-use crate::group::orbit::abstraction::{
-    FactoredTransversalResolver, SimpleTransversalResolver, TransversalResolver,
+use {
+    super::Stabchain,
+    crate::{
+        group::{
+            orbit::abstraction::{
+                FactoredTransversalResolver,
+                SimpleTransversalResolver,
+                TransversalResolver,
+            },
+            stabchain::base::selectors::BaseSelector,
+            Group,
+        },
+        perm::{
+            Action,
+            Permutation,
+        },
+    },
 };
-use crate::group::stabchain::base::selectors::BaseSelector;
-use crate::group::Group;
-use crate::perm::{Action, Permutation};
 
-use rand::rngs::ThreadRng;
-use rand::Rng;
+use rand::{
+    rngs::ThreadRng,
+    Rng,
+};
 
 use std::fmt::Debug;
 
@@ -123,10 +136,7 @@ use random::parameters::RandomAlgoParameters;
 /// This should be faster than the naive and IFT methods, but is not deterministic.
 /// This should not be used, as the shallow version is faster and more reliable.
 #[derive(Debug, Clone)]
-#[deprecated(
-    since = "0.1.1",
-    note = "please use `RandomBuilderStrategyShallow` instead"
-)]
+#[deprecated(since = "0.1.1", note = "please use `RandomBuilderStrategyShallow` instead")]
 pub struct RandomBuilderStrategyNaive<A, S, R = ThreadRng> {
     selector: S,
     action: A,
@@ -213,10 +223,6 @@ where
     type BuilderT = random::random_strees::StabchainBuilderRandomSTrees<P, S, A, R>;
 
     fn make_builder(self) -> Self::BuilderT {
-        random::random_strees::StabchainBuilderRandomSTrees::new(
-            self.selector,
-            self.action,
-            self.params,
-        )
+        random::random_strees::StabchainBuilderRandomSTrees::new(self.selector, self.action, self.params)
     }
 }

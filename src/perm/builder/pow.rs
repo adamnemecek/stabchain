@@ -1,5 +1,7 @@
-use super::PermBuilder;
-use crate::perm::Permutation;
+use {
+    super::PermBuilder,
+    crate::perm::Permutation,
+};
 
 #[derive(Debug, Clone)]
 pub struct Pow<Perm> {
@@ -74,8 +76,14 @@ pub fn pow<P: Permutation>(perm: P, n: usize) -> P {
 
 #[cfg(test)]
 mod tests {
-    use crate::perm::{builder::PermBuilder, DefaultPermutation, Permutation};
-    use std::iter::FromIterator;
+    use {
+        crate::perm::{
+            builder::PermBuilder,
+            DefaultPermutation,
+            Permutation,
+        },
+        std::iter::FromIterator,
+    };
     #[test]
     fn simple_exponentiation() {
         let perm = DefaultPermutation::from_images(&[1, 2, 3, 4, 5, 0]);

@@ -9,8 +9,13 @@ pub mod export;
 pub mod impls;
 pub mod utils;
 
-use std::fmt::{Debug, Display};
-use std::hash::Hash;
+use std::{
+    fmt::{
+        Debug,
+        Display,
+    },
+    hash::Hash,
+};
 
 // Very much arbitrary
 const ORDER_LIMIT: usize = 12;
@@ -126,16 +131,14 @@ macro_rules! impl_all {
 }
 
 use crate::perm::impls::{
-    based::BasedPermutation, map::MapPermutation, standard::StandardPermutation,
-    sync::SyncPermutation, word::WordPermutation,
+    based::BasedPermutation,
+    map::MapPermutation,
+    standard::StandardPermutation,
+    sync::SyncPermutation,
+    word::WordPermutation,
 };
 
-impl_all!(
-    [StandardPermutation],
-    BasedPermutation,
-    MapPermutation,
-    WordPermutation,
-);
+impl_all!([StandardPermutation], BasedPermutation, MapPermutation, WordPermutation,);
 
 impl_all!(
     [BasedPermutation],
@@ -153,12 +156,7 @@ impl_all!(
     WordPermutation,
 );
 
-impl_all!(
-    [SyncPermutation],
-    MapPermutation,
-    BasedPermutation,
-    WordPermutation,
-);
+impl_all!([SyncPermutation], MapPermutation, BasedPermutation, WordPermutation,);
 
 impl_all_conversions!(
     [WordPermutation],

@@ -1,6 +1,11 @@
-use super::ClassicalPermutation;
-use crate::perm::Permutation;
-use serde::{Deserialize, Serialize};
+use {
+    super::ClassicalPermutation,
+    crate::perm::Permutation,
+    serde::{
+        Deserialize,
+        Serialize,
+    },
+};
 
 use std::fmt;
 
@@ -162,8 +167,11 @@ macro_rules! impl_all {
 }
 
 use crate::perm::impls::{
-    based::BasedPermutation, map::MapPermutation, standard::StandardPermutation,
-    sync::SyncPermutation, word::WordPermutation,
+    based::BasedPermutation,
+    map::MapPermutation,
+    standard::StandardPermutation,
+    sync::SyncPermutation,
+    word::WordPermutation,
 };
 
 impl_all!(
@@ -193,8 +201,7 @@ mod tests {
 
     #[test]
     fn cyclic_perm() {
-        let perm: CyclePermutation =
-            ClassicalPermutation::from_slice(&[4, 5, 7, 6, 8, 2, 1, 3]).into();
+        let perm: CyclePermutation = ClassicalPermutation::from_slice(&[4, 5, 7, 6, 8, 2, 1, 3]).into();
         assert_eq!(perm.cycles().len(), 1);
         assert_eq!(perm.cycles, vec![vec![1, 4, 6, 2, 5, 8, 3, 7]])
     }
@@ -238,8 +245,7 @@ mod tests {
 
     #[test]
     fn cyclical_to_classical_multiple_cycles() {
-        let cyclic: ClassicalPermutation =
-            CyclePermutation::from_vec(vec![vec![1, 3], vec![2, 4]]).into();
+        let cyclic: ClassicalPermutation = CyclePermutation::from_vec(vec![vec![1, 3], vec![2, 4]]).into();
         let classic = ClassicalPermutation::from_slice(&[3, 4, 1, 2]);
         assert_eq!(cyclic, classic);
     }

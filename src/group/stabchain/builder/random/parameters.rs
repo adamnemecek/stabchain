@@ -1,5 +1,7 @@
-use num::BigUint;
-use rand::rngs::ThreadRng;
+use {
+    num::BigUint,
+    rand::rngs::ThreadRng,
+};
 
 #[derive(Debug, Clone)]
 pub struct RandomAlgoParameters<R = ThreadRng> {
