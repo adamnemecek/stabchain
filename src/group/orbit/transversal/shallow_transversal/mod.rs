@@ -48,9 +48,8 @@ where
     let mut to_traverse = VecDeque::new();
     to_traverse.push_back(base.clone());
     // While there are still elements of the orbit unused.
-    'element_checking: while !to_traverse.is_empty() {
-        //Take an unused element.
-        let delta = to_traverse.pop_front().unwrap();
+    //Take an unused element.
+    'element_checking: while let Some(delta) = to_traverse.pop_front() {
         for g in gens {
             let point = strat.apply(g, delta.clone());
 

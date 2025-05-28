@@ -192,8 +192,7 @@ where
         // If this element is already a generator, then we can exit
         let mut to_check: VecDeque<_> = record.transversal.keys().cloned().collect();
         let mut new_transversal = DetHashMap::default();
-        while !to_check.is_empty() {
-            let orbit_element = to_check.pop_back().unwrap();
+        while let Some(orbit_element) = to_check.pop_back() {
             let new_image = self.action.apply(&p, orbit_element);
 
             // If we haven't seen this element.
@@ -209,9 +208,8 @@ where
         record.transversal.extend(new_transversal);
 
         // While we have orbit elements (and representatives to check)
-        while !to_check.is_empty() {
+        while let Some(orbit_element) = to_check.pop_back() {
             // Get the pair
-            let orbit_element = to_check.pop_back().unwrap();
             // For each generator (and p)
             for generator in std::iter::once(&p).chain(record.gens.generators()) {
                 let new_image = self.action.apply(generator, orbit_element);

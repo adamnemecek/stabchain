@@ -59,6 +59,18 @@ where
         debug_assert!(strat.apply(&rep.inv(), base) == point);
         Some(rep.inv())
     }
+    let mut orbit_point = point.clone();
+    let mut rep = P::id();
+    // Move along the orbit till we reach a representative that the base moves to the point.
+    while orbit_point != base {
+        let g_inv = transversal.get(&orbit_point).unwrap();
+        rep = rep.multiply(g_inv);
+        orbit_point = strat.apply(g_inv, orbit_point);
+    }
+    // Invert at the end, as the inverses are used.
+    // If we want fgh, then we can instead do (h^-1, g^-1, f^-1)^-1.
+    debug_assert!(strat.apply(&rep.inv(), base) == point);
+    Some(rep.inv())
 }
 
 #[deprecated(since = "0.1.1")]
@@ -161,9 +173,8 @@ where
     let mut to_traverse = VecDeque::new();
     to_traverse.push_back(base);
     // While there are still elements of the orbit unused.
-    while !to_traverse.is_empty() {
-        //Take an unused element.
-        let delta = to_traverse.pop_front().unwrap();
+    //Take an unused element.
+    while let Some(delta) = to_traverse.pop_front() {
         for g in gens {
             let point = strat.apply(g, delta.clone());
 
@@ -193,9 +204,8 @@ where
     let mut to_traverse = VecDeque::new();
     to_traverse.push_back(base);
     // While there are still elements of the orbit unused.
-    while !to_traverse.is_empty() {
+    while let Some(delta) = to_traverse.pop_front() {
         //Take an unused element.
-        let delta = to_traverse.pop_front().unwrap();
         for g in gens {
             let point = strat.apply(g, delta.clone());
 

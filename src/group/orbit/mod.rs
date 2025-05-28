@@ -122,8 +122,7 @@ where
     to_traverse.push_back(w);
 
     // Get unused
-    while !to_traverse.is_empty() {
-        let delta = to_traverse.pop_front().unwrap();
+    while let Some(delta) = to_traverse.pop_front() {
         for g in gens {
             // Apply generator and insert
             let gamma = strat.apply(g, delta.clone());
@@ -157,8 +156,7 @@ where
     to_traverse.push_back(w);
 
     // Get unused
-    while !to_traverse.is_empty() {
-        let delta = to_traverse.pop_front().unwrap();
+    while let Some(delta) = to_traverse.pop_front() {
         for g in gens {
             // Apply generator and insert
             let gamma = strat.apply(g, delta.clone());

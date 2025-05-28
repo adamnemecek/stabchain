@@ -152,9 +152,8 @@ where
         record.transversal.extend(new_transversal);
 
         // While we have orbit elements (and representatives to check)
-        while !to_check.is_empty() {
+        while let Some(orbit_element) = to_check.pop_back() {
             // Get the pair
-            let orbit_element = to_check.pop_back().unwrap();
             let orbit_element_repr = representative_raw(
                 &record.transversal,
                 record.base.clone(),

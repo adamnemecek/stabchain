@@ -286,8 +286,7 @@ where
         if !recompute_transversal {
             let mut new_transversal = DetHashMap::default();
             let mut new_depths = DetHashMap::default();
-            while !to_check.is_empty() {
-                let x = to_check.pop_front().unwrap();
+            while let Some(x) = to_check.pop_front() {
                 let current_depth = self.depths[level].get(&x).unwrap();
                 let new_image = self.action.apply(p, x);
                 if !(record.transversal.contains_key(&new_image) || new_transversal.contains_key(&new_image)) {
@@ -300,9 +299,8 @@ where
             record.transversal.extend(new_transversal);
             self.depths[level].extend(new_depths);
             // Check the newly added points
-            'element_checking: while !to_check.is_empty() {
+            'element_checking: while let Some(orbit_element) = to_check.pop_front() {
                 // Get the pair
-                let orbit_element = to_check.pop_front().unwrap();
                 let orbit_depth = *self.depths[level].get(&orbit_element).unwrap();
                 // For each generator (and p)
                 for generator in record.gens.generators() {
